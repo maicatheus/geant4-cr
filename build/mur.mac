@@ -1,0 +1,7 @@
+/run/numberOfThreads 4
+/process/had/enableCRCoalescence true
+/run/initialize
+/gun/position 0 0 -10 km
+/gun/particle  proton
+/gun/energy 10 GeV
+/run/beamOn 100

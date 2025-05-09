@@ -1,0 +1,4 @@
+/home/sicredi-laptop/TCC/gamma/build/CMakeFiles/sim.dir
+/home/sicredi-laptop/TCC/gamma/build/CMakeFiles/dozerog4.dir
+/home/sicredi-laptop/TCC/gamma/build/CMakeFiles/edit_cache.dir
+/home/sicredi-laptop/TCC/gamma/build/CMakeFiles/rebuild_cache.dir
