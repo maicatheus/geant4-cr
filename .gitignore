@@ -1,4 +1,1 @@
-/build/cmake*
-/build/CMake*
-/build/*.png
-/build/CMakeFiles
+/build
