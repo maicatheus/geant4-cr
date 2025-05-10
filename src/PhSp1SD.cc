@@ -33,25 +33,32 @@ G4int hcID1 = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
 hce1->AddHitsCollection(hcID1, hitsCollection1); 
 }
 
-G4bool PhSp1SD::ProcessHits(G4Step* aStep, G4TouchableHistory*){  
-PhSp1Hit* phsp1Hit = new PhSp1Hit();
+G4bool PhSp1SD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
+{  
+   
+   if (aStep->GetTrack()->GetDefinition() != G4Gamma::GammaDefinition())
+   {
+      return false;  
+   }
+
+   PhSp1Hit* phsp1Hit = new PhSp1Hit();
   
-phsp1Hit->SetTrackID(aStep->GetTrack()->GetTrackID());
-phsp1Hit->SetParentID(aStep -> GetTrack() -> GetParentID());
-phsp1Hit->SetEventID(G4RunManager::GetRunManager() -> GetCurrentEvent() -> GetEventID());
-phsp1Hit->SetPosition(aStep -> GetPostStepPoint() -> GetPosition());
-phsp1Hit->SetMomDirection(aStep -> GetTrack() -> GetMomentumDirection());
-phsp1Hit->SetEdep(aStep -> GetTotalEnergyDeposit());
-phsp1Hit->SetEkin(aStep -> GetTrack() -> GetKineticEnergy());
-phsp1Hit->SetParticleName(aStep->GetTrack() -> GetParticleDefinition() -> GetParticleName());
-phsp1Hit->SetProcess(aStep->GetPostStepPoint()-> GetProcessDefinedStep() -> GetProcessName());
-phsp1Hit->SetCopyNmb(aStep -> GetPreStepPoint() -> GetTouchableHandle() -> GetCopyNumber());
+   phsp1Hit->SetTrackID(aStep->GetTrack()->GetTrackID());
+   phsp1Hit->SetParentID(aStep->GetTrack()->GetParentID());
+   phsp1Hit->SetEventID(G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
+   phsp1Hit->SetPosition(aStep->GetPostStepPoint()->GetPosition());
+   phsp1Hit->SetMomDirection(aStep->GetTrack()->GetMomentumDirection());
+   phsp1Hit->SetEdep(aStep->GetTotalEnergyDeposit());
+   phsp1Hit->SetEkin(aStep->GetTrack()->GetKineticEnergy());
+   phsp1Hit->SetParticleName(aStep->GetTrack()->GetParticleDefinition()->GetParticleName());
+   phsp1Hit->SetProcess(aStep->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName());
+   phsp1Hit->SetCopyNmb(aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber());
 
-hitsCollection1->insert(phsp1Hit);
+   hitsCollection1->insert(phsp1Hit);
 
-phsp1Hit->Print();
+   phsp1Hit->Print();
 
-return true;
+   return true;
 }
 
 void PhSp1SD::EndOfEvent(G4HCofThisEvent*) {
