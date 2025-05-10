@@ -7,7 +7,7 @@
 #include "G4VisExecutive.hh"
 #include "G4Timer.hh"
 #include "G4GeometryManager.hh"  
-
+#include "G4VUserPhysicsList"
 #include "QGSP_BIC_HP.hh"
 #include "QGSP_BERT_HP.hh"
 
