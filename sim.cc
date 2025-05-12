@@ -81,6 +81,9 @@ int main(int argc, char **argv)
 		{
 			nThreads = G4UIcommand::ConvertToInt(argv[i + 1]);
 		}
+		else if (G4String(argv[i]) == "-mat") {
+    	    materialName = argv[i+1];
+    	}
 		else
 		{
 			PrintUsage();
@@ -91,7 +94,8 @@ int main(int argc, char **argv)
 	// Definido run mamnager
 	G4MTRunManager *runManager = new G4MTRunManager();
 	runManager->SetNumberOfThreads(nThreads);
-	runManager->SetUserInitialization(new DetConstruct());
+	runManager->SetUserInitialization(new DetConstruct(materialName));
+
 
 	// definindo a lista física
 	if (physicsName == "QGSP_BIC_HP" || physicsName == "QGSP_BERT_HP")

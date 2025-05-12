@@ -13,58 +13,39 @@
 
 class DetectorMessenger;
 
-class DetConstruct : public G4VUserDetectorConstruction
-{
+class DetConstruct : public G4VUserDetectorConstruction{
 public:
-    DetConstruct();
+    DetConstruct(const G4String& material = "CO2");
     virtual ~DetConstruct();
 
-    // Getters
-    G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; }
+    virtual G4VPhysicalVolume* Construct() override;
+    virtual void ConstructSDandField() override;
 
-    // Overridden Methods
-    virtual G4VPhysicalVolume *Construct();
-    virtual void ConstructSDandField();
-
-    // Set Material
     G4bool SetMaterial(const G4String &value);
+    G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
 private:
-    // Geometries
-    G4Box *solidWorld;
-    G4Box *solidDetector;
-    G4LogicalVolume *logicWorld;
-    G4LogicalVolume *logicDetector;
-    G4VPhysicalVolume *physWorld;
-    G4VPhysicalVolume *physDetector[20]; // Suporte para até 20 detectores
+    void DefineMaterials();
+    
+    
+    G4Box* solidWorld;
+    G4Box* solidDetector;
+    G4LogicalVolume* logicWorld;
+    G4LogicalVolume* logicDetector;
+    G4VPhysicalVolume* physWorld;
+    G4VPhysicalVolume* physDetector[20]; 
 
-    // Materials
-    G4Material *worldMat;       // Material padrão do mundo
-    G4Material *matCH4Global;   // CH4 global
-    G4Material *matCO2Global;   // CO2 global
-    G4Material *matO2;          // Oxigênio
-    G4Material *matN2;          // Nitrogênio
+    
+    G4Material* worldMat;
+    G4Material* matAir;
+    G4Material* matCH4;
+    G4Material* matCO2;
 
-    // Elements
-    G4Element *C;               // Carbono
-    G4Element *H;               // Hidrogênio
-    G4Element *O;               // Oxigênio
-    G4Element *N;               // Nitrogênio
+    
+    G4LogicalVolume* fScoringVolume;
 
-    // Scoring Volume
-    G4LogicalVolume *fScoringVolume;
-
-    // Utilities
-    G4GenericMessenger *fMessenger; // Messenger para parâmetros
-    DetectorMessenger *detectorMessenger; // Messenger personalizado
-
-    // Variables
-    G4double zw;               // Variável para coordenada Z
-    G4int nCols;               // Número de colunas (se necessário)
-    G4int nRows;               // Número de linhas (se necessário)
-
-    // Private Methods
-    void DefineMaterials();    // Define os materiais do detector
+    
+    DetectorMessenger* detectorMessenger;
 };
 
 #endif
