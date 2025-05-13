@@ -3,4 +3,4 @@
 /gun/position 0 0 -10 km
 /gun/particle proton
 /gun/energy 0.5 GeV
-/run/beamOn 10
+/run/beamOn 10000
