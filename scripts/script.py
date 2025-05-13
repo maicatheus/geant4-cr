@@ -6,13 +6,23 @@ from collections import defaultdict
 
 h = 4.135667696e-15  
 c = 2.99792458e8     
+MeV_to_eV = 1e6
 
-def calculate_wavelength(energy_ev):
-    """Calculate wavelength in nm from energy in eV."""
-    if energy_ev <= 0:
+def calculate_wavelengthasd(energy_MeV):
+    if energy_MeV <= 0:
         return None
-    wavelength_m = (h * c) / energy_ev 
+    wavelength_m = (h * c) / (energy_MeV * MeV_to_eV)
     return wavelength_m * 1e9  
+
+h_J = 6.62607015e-34  # (J·s)
+c = 2.99792458e8     # (m/s)
+eV_to_J = 1.60218e-19  # 1 eV = 1.60218e-19 J
+
+def calculate_wavelength(energy_MeV):
+    energy_eV = energy_MeV * 1e6  # MeV -> eV
+    energy_J = energy_eV * eV_to_J  # eV -> Joules
+    wavelength_m = (h_J * c) / energy_J
+    return wavelength_m * 1e9  # m -> nm
 
 def load_and_group_files(directory):
     """Load all .hit files and group them by energy."""
