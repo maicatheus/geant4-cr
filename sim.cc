@@ -102,8 +102,7 @@ int main(int argc, char **argv) {
     runManager->SetUserInitialization(pl);
     runManager->SetUserInitialization(new MyActionInitialization());
 
-    outputFileName = outputFile + "_" + materialName + "_s" + nSeed + "_t" + 
-                    G4UIcommand::ConvertToString(nThreads) + ".hit";
+    outputFileName = outputFile + ".hit";
     G4cout << "Output file: " << outputFileName << G4endl;
 
     G4VisManager *visManager = new G4VisExecutive();

@@ -36,7 +36,7 @@ for macro in "${MACROS[@]}"; do
             echo "Running simulation: Energy=${ENERGY}GeV, Material=${mat}, Seed=${seed}"
             
             
-            OUTPUT_FILE="${MAIN_RESULTS_DIR}/${mat}-${ENERGY}-${seed}.hit"
+            OUTPUT_FILE="${MAIN_RESULTS_DIR}/${mat}-${ENERGY}-${seed}"
             
             
             ./sim -m "$macro" -t $THREADS -o "$OUTPUT_FILE" -s $seed -mat "$mat"
