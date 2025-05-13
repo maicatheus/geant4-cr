@@ -18,7 +18,7 @@ get_energy() {
 }
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-MAIN_RESULTS_DIR="simulation_results_${TIMESTAMP}"
+MAIN_RESULTS_DIR="../simulation_results_${TIMESTAMP}"
 mkdir -p "$MAIN_RESULTS_DIR"
 
 for macro in "${MACROS[@]}"; do
