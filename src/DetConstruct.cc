@@ -60,31 +60,27 @@ void DetConstruct::DefineMaterials()
     worldMat = matCO2;
 }
 
-G4VPhysicalVolume* DetConstruct::Construct()
+G4VPhysicalVolume *DetConstruct::Construct()
 {
-    // World dimensions
-    const G4double worldSize = 10*km;
-    const G4int nDetectors = 20;
-    const G4double detThickness = 1.0*m;
+    G4double xWorld = 10 * km;
+    G4double yWorld = 10 * km;
+    G4double zWorld = 10 * km;
 
-    // World volume
-    solidWorld = new G4Box("solidWorld", worldSize/2, worldSize/2, worldSize/2);
+    solidWorld = new G4Box("solidWorld", xWorld, yWorld, zWorld);
+
     logicWorld = new G4LogicalVolume(solidWorld, worldMat, "logicWorld");
-    physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "physWorld", 
-                                nullptr, false, 0, true);
 
-    // Detector volume - slightly smaller than world
-    const G4double detSize = worldSize * 0.99;
-    solidDetector = new G4Box("solidDetector", detSize/2, detSize/2, detThickness/2);
+    physWorld = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", nullptr, false, 0, true);
+
+    solidDetector = new G4Box("solidDetector", xWorld - xWorld / 100.0, yWorld - yWorld / 100.0, 1.0 * m);
+
     logicDetector = new G4LogicalVolume(solidDetector, worldMat, "logicDetector");
-    fScoringVolume = logicDetector;
 
-    // Place detectors evenly along Z axis
-    const G4double detSpacing = worldSize/(nDetectors+1);
-    for (G4int k = 0; k < nDetectors; k++) {
-        G4double zPos = -worldSize/2 + (k+1)*detSpacing;
-        physDetector[k] = new G4PVPlacement(0, G4ThreeVector(0., 0., zPos), 
-                          logicDetector, "physDetector", logicWorld, false, k, true);
+    for (G4int k = 0; k < 20; k++)
+    {
+        G4double zw = zWorld / 20. * 2 * k - zWorld + zWorld / 20.;
+
+        physDetector[k] = new G4PVPlacement(0, G4ThreeVector(0., 0., zw), logicDetector, "physDetector", logicWorld, false, k, true);
     }
 
     return physWorld;
@@ -93,14 +89,11 @@ G4VPhysicalVolume* DetConstruct::Construct()
 void DetConstruct::ConstructSDandField()
 {
     G4String trackerSDname = "/hitFiles/hit1";
-    auto SDman = G4SDManager::GetSDMpointer();
-    
-    if (SDman->FindSensitiveDetector(trackerSDname, false)) {
-        delete SDman->FindSensitiveDetector(trackerSDname);
-    }
+    if (G4SDManager::GetSDMpointer()->FindSensitiveDetector(trackerSDname, 0))
+        delete G4SDManager::GetSDMpointer()->FindSensitiveDetector(trackerSDname);
 
-    PhSp1SD* phSp1SD = new PhSp1SD(trackerSDname, "Hit1");
-    SDman->AddNewDetector(phSp1SD);
+    PhSp1SD *phSp1SD = new PhSp1SD(trackerSDname, "Hit1");
+    G4SDManager::GetSDMpointer()->AddNewDetector(phSp1SD);
     SetSensitiveDetector(logicDetector, phSp1SD);
 }
 
