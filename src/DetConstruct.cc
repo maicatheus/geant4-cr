@@ -75,13 +75,14 @@ G4VPhysicalVolume *DetConstruct::Construct()
     solidDetector = new G4Box("solidDetector", xWorld - xWorld / 100.0, yWorld - yWorld / 100.0, 1.0 * m);
 
     logicDetector = new G4LogicalVolume(solidDetector, worldMat, "logicDetector");
+    physDetector[0] = new G4PVPlacement(0, G4ThreeVector(xWorld, yWorld, zWorld), logicDetector, "physDetector", logicWorld, false, k, true);
 
-    for (G4int k = 0; k < 20; k++)
-    {
-        G4double zw = zWorld / 20. * 2 * k - zWorld + zWorld / 20.;
+    // for (G4int k = 0; k < 20; k++)
+    // {
+    //     G4double zw = zWorld / 20. * 2 * k - zWorld + zWorld / 20.;
 
-        physDetector[k] = new G4PVPlacement(0, G4ThreeVector(0., 0., zw), logicDetector, "physDetector", logicWorld, false, k, true);
-    }
+    //     physDetector[k] = new G4PVPlacement(0, G4ThreeVector(0., 0., zw), logicDetector, "physDetector", logicWorld, false, k, true);
+    // }
 
     return physWorld;
 }
