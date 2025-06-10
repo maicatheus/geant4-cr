@@ -1,6 +1,3 @@
-
-
-
 MATERIALS=("Air" "CH4" "CO2")       
 SEEDS=(10)                           
 THREADS=24                           
