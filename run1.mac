@@ -1,6 +1,20 @@
 /run/numberOfThreads 24
 /run/initialize
+
 /gun/position 0 0 -10 km
 /gun/particle proton
 /gun/energy 1 GeV
+
+/vis/open RayTracer
+/vis/drawVolume
+/vis/viewer/set/viewpointThetaPhi 30 30  # Ângulo da câmera
+/vis/viewer/zoom 2.0
+
+# Opcional: trajetórias e hits (descomente se quiser)
+# /vis/scene/add/trajectories smooth
+# /vis/scene/add/hits
+
+/vis/rayTracer/eyePosition 0 0 -10 km  
+/vis/rayTracer/trace 1GeV_10000.png 
+
 /run/beamOn 10
