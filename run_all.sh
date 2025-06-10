@@ -16,6 +16,8 @@ get_energy() {
     fi
 }
 
+START_TIME=$(date +"%Y-%m-%d %H:%M:%S")
+START_SECONDS=$(date +%s)
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 MAIN_RESULTS_DIR="../simulation_results_${TIMESTAMP}"
@@ -44,7 +46,18 @@ for macro in "${MACROS[@]}"; do
     done
 done
 
+END_TIME=$(date +"%Y-%m-%d %H:%M:%S")
+END_SECONDS=$(date +%s)
+
+DURATION=$((END_SECONDS - START_SECONDS))
+DURATION_STR=$(printf "%02d:%02d:%02d" $((DURATION/3600)) $(( (DURATION%3600)/60 )) $((DURATION%60)))
+
 echo -e "\nAll simulations completed!"
 echo "Results saved in: $MAIN_RESULTS_DIR"
 echo "Files created:"
 ls -lh "$MAIN_RESULTS_DIR" | grep '.hit$'
+
+echo -e "\nExecution Summary:"
+echo "Start Time:    $START_TIME"
+echo "End Time:      $END_TIME"
+echo "Total Duration: $DURATION_STR (HH:MM:SS)"
