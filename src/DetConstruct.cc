@@ -72,7 +72,7 @@ G4VPhysicalVolume *DetConstruct::Construct()
 
     physWorld = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", nullptr, false, 0, true);
 
-    solidDetector = new G4Box("solidDetector", xWorld - xWorld / 100.0, yWorld - yWorld / 100.0, 1.0 * m);
+    solidDetector = new G4Box("solidDetector", xWorld, yWorld, zWorld);
 
     logicDetector = new G4LogicalVolume(solidDetector, worldMat, "logicDetector");
     physDetector[0] = new G4PVPlacement(0, G4ThreeVector(0., 0., 0), logicDetector, "physDetector", logicWorld, false, 0, true);
