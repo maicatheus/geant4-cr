@@ -1,35 +1,17 @@
-# vis_raytracer_fixed.mac - Macro corrigido e testado
+# vis_dawn_fixed.mac - Alternativa com DAWNFILE
 
-# Inicializar a simulação primeiro
 /run/initialize
 
-# Configurar visualização com RayTracer (disponível no seu servidor)
-/vis/open RayTracer
-
-# Definir a cena
+# Configurar visualização com DAWNFILE
+/vis/open DAWNFILE
 /vis/drawVolume
-/vis/scene/add/axes 0 0 0 1 km  # Eixos de referência em km
 
-# Configurar parâmetros do RayTracer para sua grande geometria (10km)
-/vis/rayTracer/eyePosition 15 15 15 km  # Posição da câmera
-/vis/rayTracer/target 0 0 0 km          # Ponto de foco
-/vis/rayTracer/lightDirection -1 -1 -1  # Direção da luz
-/vis/rayTracer/zoom 0.3                 # Zoom reduzido para caber toda a cena
+# Adicionar eixos de referência
+/vis/scene/add/axes 0 0 0 1 km
 
-# Configurar qualidade da imagem
-/vis/rayTracer/trace view_3d.png
-/vis/rayTracer/rayTracerX 2000  # Largura da imagem
-/vis/rayTracer/rayTracerY 2000  # Altura da imagem
+# Configurar visualização
+/vis/viewer/set/viewpointThetaPhi 45 45
+/vis/viewer/zoom 0.3
 
-# Visualizações ortogonais
-/vis/rayTracer/eyePosition 15 0 0 km
-/vis/rayTracer/trace view_x.png
-
-/vis/rayTracer/eyePosition 0 15 0 km
-/vis/rayTracer/trace view_y.png
-
-/vis/rayTracer/eyePosition 0 0 15 km
-/vis/rayTracer/trace view_z.png
-
-# Finalizar
+# Gerar arquivo .prim (pode ser convertido depois)
 /vis/viewer/flush
