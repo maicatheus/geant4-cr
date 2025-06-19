@@ -1,0 +1,25 @@
+# vis_raytracer.mac - Macro para visualização com RayTracer
+
+# Inicializar visualização
+/vis/open RayTracer
+/vis/drawVolume
+
+# Configurar cena
+/vis/scene/add/trajectories smooth
+/vis/scene/add/axes 0 0 0 1 km
+
+# Configurar RayTracer
+/vis/rayTracer/eyePosition 5 5 5 km
+/vis/rayTracer/target 0 0 0 km
+/vis/rayTracer/lightDirection -1 -1 -1
+/vis/rayTracer/trace view_raytracer.png
+
+# Gerar múltiplas visualizações
+/vis/rayTracer/eyePosition 10 0 0 km
+/vis/rayTracer/trace view_x.png
+
+/vis/rayTracer/eyePosition 0 10 0 km
+/vis/rayTracer/trace view_y.png
+
+/vis/rayTracer/eyePosition 0 0 10 km
+/vis/rayTracer/trace view_z.png
