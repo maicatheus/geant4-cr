@@ -1,50 +1,33 @@
-# vis_batch_corrected.mac - Macro corrigido para visualização em modo batch
+# vis_raytracer_final.mac - Macro final usando RayTracer
 
-# Primeiro, inicialize a simulação
+# Inicializar a simulação primeiro
 /run/initialize
 
-# Configurar o sistema de visualização
-/vis/open OGLIQt
+# Configurar visualização com RayTracer (disponível no seu servidor)
+/vis/open RayTracer
 /vis/drawVolume
-/vis/viewer/set/viewpointThetaPhi 45 45
-/vis/viewer/zoom 5.0
-/vis/viewer/set/style surface
-/vis/viewer/set/hiddenEdge 1
 
-# Definir cores e visibilidade
-/vis/geometry/set/colour World 0 0.5 0.5 0.5 0.3
-/vis/geometry/set/visibility World 0 1
+# Definir extensão explícita para sua caixa de 10km
+/vis/scene/add/extent -5 -5 -5 km 5 5 5 km
 
 # Adicionar eixos de referência (em km)
 /vis/scene/add/axes 0 0 0 1 km
 
-# Definir o tamanho da cena explicitamente (para sua caixa de 10km)
-/vis/scene/add/extent -5 -5 -5 km 5 5 5 km
+# Configurar parâmetros do RayTracer para sua grande geometria
+/vis/rayTracer/eyePosition 15 15 15 km  # Posição da câmera
+/vis/rayTracer/target 0 0 0 km           # Ponto de foco
+/vis/rayTracer/lightDirection -1 -1 -1   # Direção da luz
+/vis/rayTracer/zoom 0.3                  # Zoom reduzido para caber toda a cena
 
-# Configurar trajetórias e acumulação de eventos
-/vis/scene/add/trajectories smooth
-/vis/scene/endOfEventAction accumulate
+# Gerar imagem 3D
+/vis/rayTracer/trace geometry_3d_view.png
 
-# Atualizar visualização
-/vis/viewer/refresh
+# Visualizações ortogonais
+/vis/rayTracer/eyePosition 15 0 0 km
+/vis/rayTracer/trace geometry_x_view.png
 
-# Configurar para exportar imagens
-/vis/viewer/set/autoRefresh false
+/vis/rayTector/eyePosition 0 15 0 km
+/vis/rayTracer/trace geometry_y_view.png
 
-# Primeira visualização - vista oblíqua
-/vis/viewer/set/viewpointThetaPhi 30 30
-/vis/ogl/set/printFilename view_30_30
-/vis/ogl/printEPS
-
-# Segunda visualização - vista diferente
-/vis/viewer/set/viewpointThetaPhi 60 30
-/vis/ogl/set/printFilename view_60_30
-/vis/ogl/printEPS
-
-# Vista de topo
-/vis/viewer/set/viewpointThetaPhi 90 0
-/vis/ogl/set/printFilename view_top
-/vis/ogl/printEPS
-
-# Finalizar
-/vis/viewer/flush
+/vis/rayTracer/eyePosition 0 0 15 km
+/vis/rayTracer/trace geometry_z_view.png
