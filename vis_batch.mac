@@ -1,25 +1,50 @@
-# vis_raytracer.mac - Macro para visualização com RayTracer
+# vis_batch_corrected.mac - Macro corrigido para visualização em modo batch
 
-# Inicializar visualização
-/vis/open RayTracer
+# Primeiro, inicialize a simulação
+/run/initialize
+
+# Configurar o sistema de visualização
+/vis/open OGLIQt
 /vis/drawVolume
+/vis/viewer/set/viewpointThetaPhi 45 45
+/vis/viewer/zoom 5.0
+/vis/viewer/set/style surface
+/vis/viewer/set/hiddenEdge 1
 
-# Configurar cena
-/vis/scene/add/trajectories smooth
+# Definir cores e visibilidade
+/vis/geometry/set/colour World 0 0.5 0.5 0.5 0.3
+/vis/geometry/set/visibility World 0 1
+
+# Adicionar eixos de referência (em km)
 /vis/scene/add/axes 0 0 0 1 km
 
-# Configurar RayTracer
-/vis/rayTracer/eyePosition 5 5 5 km
-/vis/rayTracer/target 0 0 0 km
-/vis/rayTracer/lightDirection -1 -1 -1
-/vis/rayTracer/trace view_raytracer.png
+# Definir o tamanho da cena explicitamente (para sua caixa de 10km)
+/vis/scene/add/extent -5 -5 -5 km 5 5 5 km
 
-# Gerar múltiplas visualizações
-/vis/rayTracer/eyePosition 10 0 0 km
-/vis/rayTracer/trace view_x.png
+# Configurar trajetórias e acumulação de eventos
+/vis/scene/add/trajectories smooth
+/vis/scene/endOfEventAction accumulate
 
-/vis/rayTracer/eyePosition 0 10 0 km
-/vis/rayTracer/trace view_y.png
+# Atualizar visualização
+/vis/viewer/refresh
 
-/vis/rayTracer/eyePosition 0 0 10 km
-/vis/rayTracer/trace view_z.png
+# Configurar para exportar imagens
+/vis/viewer/set/autoRefresh false
+
+# Primeira visualização - vista oblíqua
+/vis/viewer/set/viewpointThetaPhi 30 30
+/vis/ogl/set/printFilename view_30_30
+/vis/ogl/printEPS
+
+# Segunda visualização - vista diferente
+/vis/viewer/set/viewpointThetaPhi 60 30
+/vis/ogl/set/printFilename view_60_30
+/vis/ogl/printEPS
+
+# Vista de topo
+/vis/viewer/set/viewpointThetaPhi 90 0
+/vis/ogl/set/printFilename view_top
+/vis/ogl/printEPS
+
+# Finalizar
+/vis/viewer/flush
