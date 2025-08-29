@@ -1,7 +1,8 @@
 MATERIALS=("Air" "CH4" "CO2")       
 SEEDS=(10)                           
 THREADS=24                           
-MACROS=("./run05.mac" "./run1.mac" "./run5.mac" "./run10.mac")  
+# MACROS=("./run05.mac" "./run1.mac" "./run5.mac" "./run10.mac")  
+MACROS=("./run5.mac")  
 
 
 get_energy() {

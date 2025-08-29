@@ -15,6 +15,8 @@
 #include "G4ios.hh"
 #include "G4RunManager.hh" 
 #include "G4Gamma.hh"
+#include "G4Electron.hh"
+#include "G4Positron.hh"
 
 PhSp1SD::PhSp1SD(const G4String& name1, const G4String& hitsCollectionName1) 
  : G4VSensitiveDetector(name1),
@@ -37,7 +39,9 @@ hce1->AddHitsCollection(hcID1, hitsCollection1);
 G4bool PhSp1SD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 {  
    
-   if (aStep->GetTrack()->GetDefinition() != G4Gamma::GammaDefinition()){
+   if (aStep->GetTrack()->GetDefinition() != G4Gamma::GammaDefinition() 
+      || aStep->GetTrack()->GetDefinition() != G4Electron::ElectronDefinition() 
+      || aStep->GetTrack()->GetDefinition() != G4Positron::PositronDefinition() ) {
       return false;  
    }
 
