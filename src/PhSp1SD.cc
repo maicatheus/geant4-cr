@@ -39,10 +39,10 @@ hce1->AddHitsCollection(hcID1, hitsCollection1);
 G4bool PhSp1SD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 {  
    
-   if (aStep->GetTrack()->GetDefinition() != G4Gamma::GammaDefinition() 
-      || aStep->GetTrack()->GetDefinition() != G4Electron::ElectronDefinition() 
-      || aStep->GetTrack()->GetDefinition() != G4Positron::PositronDefinition() ) {
-      return false;  
+   if (aStep->GetTrack()->GetDefinition() != G4Gamma::GammaDefinition()
+      && aStep->GetTrack()->GetDefinition() != G4Electron::ElectronDefinition()
+      && aStep->GetTrack()->GetDefinition() != G4Positron::PositronDefinition()) {
+      return false;
    }
 
    PhSp1Hit* phsp1Hit = new PhSp1Hit();
