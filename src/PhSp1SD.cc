@@ -62,6 +62,10 @@ G4bool PhSp1SD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 
    phsp1Hit->Print();
 
+   G4cout << "ProcessHits: Hit processado para TrackID " 
+         << phsp1Hit->GetTrackID() << " no evento " 
+         << phsp1Hit->GetEventID() << G4endl;
+         
    return true;
 }
 
