@@ -1,4 +1,5 @@
-MATERIALS=("Air" "CH4" "CO2")       
+# MATERIALS=("Air" "CH4" "CO2")       
+MATERIALS=("Air")       
 SEEDS=(10)                           
 THREADS=24                           
 # MACROS=("./run05.mac" "./run1.mac" "./run5.mac" "./run10.mac")  
