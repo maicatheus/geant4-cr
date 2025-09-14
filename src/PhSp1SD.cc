@@ -13,10 +13,12 @@
 #include "G4ThreeVector.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
+#include "G4SystemOfUnits.hh"
 #include "G4RunManager.hh" 
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
 #include "G4Positron.hh"
+#include ".hh"
 
 PhSp1SD::PhSp1SD(const G4String& name1, const G4String& hitsCollectionName1) 
  : G4VSensitiveDetector(name1),
@@ -38,36 +40,42 @@ hce1->AddHitsCollection(hcID1, hitsCollection1);
 
 G4bool PhSp1SD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 {  
-   
-   if (aStep->GetTrack()->GetDefinition() != G4Gamma::GammaDefinition()
-      && aStep->GetTrack()->GetDefinition() != G4Electron::ElectronDefinition()
-      && aStep->GetTrack()->GetDefinition() != G4Positron::PositronDefinition() && aStep->GetTrack()->GetKineticEnergy() < 0.51*MeV && aStep->GetTrack()->GetKineticEnergy() > 0.52*MeV) {
-      return false;
-   }
+    G4ParticleDefinition* pd = aStep->GetTrack()->GetDefinition();
+    G4double ekin = aStep->GetTrack()->GetKineticEnergy();
 
-   PhSp1Hit* phsp1Hit = new PhSp1Hit();
-  
-   phsp1Hit->SetTrackID(aStep->GetTrack()->GetTrackID());
-   phsp1Hit->SetParentID(aStep->GetTrack()->GetParentID());
-   phsp1Hit->SetEventID(G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
-   phsp1Hit->SetPosition(aStep->GetPostStepPoint()->GetPosition());
-   phsp1Hit->SetMomDirection(aStep->GetTrack()->GetMomentumDirection());
-   phsp1Hit->SetEdep(aStep->GetTotalEnergyDeposit());
-   phsp1Hit->SetEkin(aStep->GetTrack()->GetKineticEnergy());
-   phsp1Hit->SetParticleName(aStep->GetTrack()->GetParticleDefinition()->GetParticleName());
-   phsp1Hit->SetProcess(aStep->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName());
-   phsp1Hit->SetCopyNmb(aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber());
+    if (
+        (pd == G4Gamma::GammaDefinition() ||
+         pd == G4Electron::ElectronDefinition() ||
+         pd == G4Positron::PositronDefinition())
+        &&
+        (ekin >= 0.51*MeV && ekin <= 0.52*MeV)
+    ) {
+        PhSp1Hit* phsp1Hit = new PhSp1Hit();
+    
+        phsp1Hit->SetTrackID(aStep->GetTrack()->GetTrackID());
+        phsp1Hit->SetParentID(aStep->GetTrack()->GetParentID());
+        phsp1Hit->SetEventID(G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
+        phsp1Hit->SetPosition(aStep->GetPostStepPoint()->GetPosition());
+        phsp1Hit->SetMomDirection(aStep->GetTrack()->GetMomentumDirection());
+        phsp1Hit->SetEdep(aStep->GetTotalEnergyDeposit());
+        phsp1Hit->SetEkin(ekin);
+        phsp1Hit->SetParticleName(pd->GetParticleName());
+        phsp1Hit->SetProcess(aStep->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName());
+        phsp1Hit->SetCopyNmb(aStep->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber());
 
-   hitsCollection1->insert(phsp1Hit);
+        hitsCollection1->insert(phsp1Hit);
 
-   phsp1Hit->Print();
+        phsp1Hit->Print();
 
-   G4cout << "ProcessHits: Hit processado para TrackID " 
-         << phsp1Hit->GetTrackID() << " no evento " 
-         << phsp1Hit->GetEventID() 
-         << " | Energia (MeV): " << aStep->GetTrack()->GetKineticEnergy() << G4endl;
-         
-   return true;
+        G4cout << "ProcessHits: Hit processado para TrackID " 
+               << phsp1Hit->GetTrackID() << " no evento " 
+               << phsp1Hit->GetEventID() 
+               << " | Energia (MeV): " << ekin << G4endl;
+        
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void PhSp1SD::EndOfEvent(G4HCofThisEvent*) {
