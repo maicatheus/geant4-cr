@@ -41,7 +41,7 @@ G4bool PhSp1SD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
    
    if (aStep->GetTrack()->GetDefinition() != G4Gamma::GammaDefinition()
       && aStep->GetTrack()->GetDefinition() != G4Electron::ElectronDefinition()
-      && aStep->GetTrack()->GetDefinition() != G4Positron::PositronDefinition()) {
+      && aStep->GetTrack()->GetDefinition() != G4Positron::PositronDefinition() && aStep->GetTrack()->GetKineticEnergy() < 0.51*MeV && aStep->GetTrack()->GetKineticEnergy() > 0.52*MeV) {
       return false;
    }
 
@@ -64,7 +64,8 @@ G4bool PhSp1SD::ProcessHits(G4Step* aStep, G4TouchableHistory*)
 
    G4cout << "ProcessHits: Hit processado para TrackID " 
          << phsp1Hit->GetTrackID() << " no evento " 
-         << phsp1Hit->GetEventID() << G4endl;
+         << phsp1Hit->GetEventID() 
+         << " | Energia (MeV): " << aStep->GetTrack()->GetKineticEnergy() << G4endl;
          
    return true;
 }
