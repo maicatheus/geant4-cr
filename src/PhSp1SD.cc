@@ -18,7 +18,7 @@
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
 #include "G4Positron.hh"
-#include ".hh"
+#include "G4Positron.hh"
 
 PhSp1SD::PhSp1SD(const G4String& name1, const G4String& hitsCollectionName1) 
  : G4VSensitiveDetector(name1),
