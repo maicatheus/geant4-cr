@@ -85,16 +85,14 @@ void PhSp1Hit::Draw()
 
 //Colocar bi slide 13
 void PhSp1Hit::Print(){
-   std::fstream outPhSp1;
-   outPhSp1.open(nameHit1, std::fstream::in | std::fstream::out | std::fstream::app);
+   std::ofstream outPhSp1(nameHit1, std::ios::app);
 
-   if (outPhSp1.is_open())   {
+   if (outPhSp1.is_open()) {
       outPhSp1 << trackID << " " << parentID << " " << eventID
                << " " << position.getX() / cm << " " << position.getY() / cm << " " << position.getZ() / cm
                << " " << momDirection.getX() << " " << momDirection.getY() << " " << momDirection.getZ()
                << " " << eDep / MeV << " " << eKin / MeV
                << " " << particle << " " << process << " " << copyNmb
-               << G4endl;
-      outPhSp1.close();
+               << std::endl;
    }
 }
